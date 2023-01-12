@@ -1,14 +1,12 @@
 const board = document.querySelector('#board');
 const BOX_NUMBER = 100;
 
-let randomCoordinate = getRandomNumber();
+let activeIndex = getRandomNumber();
 
 function renderBox(boxCount) {
   for (let i = 0; i < boxCount; i++) {
     const box = document.createElement('div');
     box.classList.add('box');
-
-    let index = 0;
 
     // присваивание дата атрибутов для координат
     box.dataset.x = Math.floor(i / 10);
@@ -18,7 +16,14 @@ function renderBox(boxCount) {
     board.append(box);
   }
 
-  startRandom(randomCoordinate);
+  initBoxArray();
+}
+
+function initBoxArray() {
+  const boxs = document.querySelectorAll('.box');
+  let activeBox = boxs[activeIndex];
+
+  activeBox.classList.add('active');
 }
 
 renderBox(BOX_NUMBER);
@@ -27,7 +32,38 @@ function getRandomNumber() {
   return Math.floor(Math.random() * BOX_NUMBER);
 }
 
-function startRandom(index) {
-  let boxs = document.querySelectorAll('.box');
-  boxs[index].classList.add('active');
+function up() {
+  box.dataset.x--;
 }
+
+function down() {
+  box.dataset.x++;
+}
+
+function left() {
+  box.dataset.y--;
+}
+
+function right() {
+  box.dataset.y++;
+}
+
+document.addEventListener('keydown', function (event) {
+  switch (event.code) {
+    case 'ArrowUp':
+      up(activeBox);
+      break;
+
+    case 'ArrowDown':
+      down(activeBox);
+      break;
+
+    case 'ArrowLeft':
+      left(activeBox);
+      break;
+
+    case 'ArrowRight':
+      right(activeBox);
+      break;
+  }
+});
